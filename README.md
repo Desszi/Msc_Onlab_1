@@ -1,2 +1,2 @@
-# Msc_-nlab_1
+# Msc_Onlab_1
 A tanulási képesség mobil környezetben való vizsgálatának elemzése és modellezése.

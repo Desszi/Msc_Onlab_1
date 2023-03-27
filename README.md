@@ -16,11 +16,14 @@ Adaptív mérőskálák kidolgozásával (A sakkjátékokból is ismert Élő - 
 A fenti eljárásokhoz a kutatási terület iránt is érdeklődő hallgató az érdeklődésének megfelelő apparátust választhat (pl. statisztikai módszertanok, neurális hálók, Bayes-i döntések, újszerű modellek kidolgozása)
 # Egyedi feladathoz a kutatás és források
 Mondrian játéhoz link: www.mondrianblocks.us
-Kognitív profil teszt:  https://kognitivprofil.hu/  
+Kognitív profil teszt:  https://kognitivprofil.hu/ 
+
 Kutatás forrásai: https://onedrive.live.com/?authkey=%21AEz7N6kMR%2Dgg42s&id=DEC322D864B6AF18%21205554&cid=DEC322D864B6AF18
+
 Rasch könyv: 5-11. fejezetek
 McGrew cikk egy state-of-the-art képesség felosztásról
 Maria Bolsinova: az Urnings modellről
+
 Felhasználandó program a Mondrián játék kimeneteléhez: https://github.com/cyberci/MondrianSimulator
 Tensorflow Codelabs: https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist#4
 # Részletes specifikáció

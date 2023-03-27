@@ -26,6 +26,7 @@ Maria Bolsinova: az Urnings modellről
 
 Felhasználandó program a Mondrián játék kimeneteléhez: https://github.com/cyberci/MondrianSimulator
 Tensorflow Codelabs: https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist#4
+
 # Részletes specifikáció
 ## Első rész
 Be kell tanítani egy neurális hálót, úgy hogy adott egy Mondrián pálya, ahol a pálya 5x5-ös és benne 3 fekete elem található. Egy ilyen pályát kap bemenetként és meg kell állapítania, hogy az adott pálya milyen nehézségű. (Százalékos formában.)

@@ -32,15 +32,15 @@ Tensorflow Codelabs: https://codelabs.developers.google.com/codelabs/cloud-tenso
 # Részletes specifikáció, haladással
 ## Első rész
 Be kell tanítani egy neurális hálót, úgy hogy adott egy Mondrián pálya, ahol a pálya 5x5-ös és benne 3 fekete elem található. Egy ilyen pályát kap bemenetként és meg kell állapítania, hogy az adott pálya milyen nehézségű. (Százalékos formában.)
-##Második rész
+## Második rész
 Be kell tanítani egy neurális hálót, úgy hogy adott egy Mondrián pálya, ahol a pálya 5x5-ös és benne 3 fekete elem található. Egy ilyen pályát kap bemenetként és meg kell állapítania, hogy az adott pálya hány lépésből rakható ki.
-##Harmadik rész
+## Harmadik rész
 Be kell tanítani egy neurális hálót, úgy hogy adott egy Mondrián pálya, ahol a pálya 6x6-os és meg van adva 1-0-kal kirakva, ahol az . Egy ilyen pályát kap bemenetként és meg kell állapítania, hogy az adott pálya hány lépésből rakható ki.
-##Negyedik rész
+## Negyedik rész
 Be kell tanítani egy neurális hálót, úgy hogy adott egy Mondrián pálya, ahol a pálya 6x6-os és meg van adva 1-0-kal kirakva, ahol az . Egy ilyen pályát kap bemenetként és meg kell állapítania, hogy az adott pálya hány lépésből rakható ki, ezt kell a lehető legjobban optimalizálni a hiperparaméterek változatatásával.
-##Ötödik rész
+## Ötödik rész
 A program kap valós paramétereket is tanítóhalmaznak, aminek az első eleme egy 2D-s mátrix, ami a pályát tartalmazza, a második eleme pedig azt hogy hány lépésből kirakható.
-##Hatodik rész
+## Hatodik rész
 Legyen egy 8x8-as mondrián pályánk, ahol ha kisebb pályára nézzük akkor 1-esekkel fedjük le a részt ahova nem lehet rakni.
 A pályákat forgassuk el minden irányba, ezzel külön eseteket generálva. (Dubla for ciklus)
 Legyen külön tanító, teszt és validációs halamzunk.

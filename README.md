@@ -41,8 +41,8 @@ Be kell tanítani egy neurális hálót, úgy hogy adott egy Mondrián pálya, a
 ## Ötödik rész
 A program kap valós paramétereket is tanítóhalmaznak, aminek az első eleme egy 2D-s mátrix, ami a pályát tartalmazza, a második eleme pedig azt hogy hány lépésből kirakható.
 ## Hatodik rész
-Legyen egy 8x8-as mondrián pályánk, ahol ha kisebb pályára nézzük akkor 1-esekkel fedjük le a részt ahova nem lehet rakni.
-A pályákat forgassuk el minden irányba, ezzel külön eseteket generálva. (Dubla for ciklus)
-Legyen külön tanító, teszt és validációs halamzunk.
-A következő kurzus segít a hiperparaméter választásban (CNN-ig eljutva): https://learn.udacity.com/courses/ud187/welcome-flow
+* Legyen egy 8x8-as mondrián pályánk, ahol ha kisebb pályára nézzük akkor 1-esekkel fedjük le a részt ahova nem lehet rakni.
+* A pályákat forgassuk el minden irányba, ezzel külön eseteket generálva. (Dubla for ciklus)
+* Legyen külön tanító, teszt és validációs halamzunk.
+* A következő kurzus segít a hiperparaméter választásban (CNN-ig eljutva): https://learn.udacity.com/courses/ud187/welcome-flow
 

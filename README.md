@@ -49,4 +49,4 @@ A program kap valós paramétereket is tanítóhalmaznak, aminek az első eleme 
 * Osztályzó berakása, könnyű, közepes nehéz osztály, és hogy jó osztályba rakja-e be? --> utolsó réteg lecserélése klasszifikációra
 * Csak 8x8-as pálya, és akkor egészítsük ki 1-esekkel ha kevesebb
 * Tanítóhalmazba belevinni az összes méretű pályát
-
+* Jupiter notebook-ba belerakni ezeket ".iynb"

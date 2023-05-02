@@ -50,3 +50,4 @@ A program kap valós paramétereket is tanítóhalmaznak, aminek az első eleme 
 * Csak 8x8-as pálya, és akkor egészítsük ki 1-esekkel ha kevesebb
 * Tanítóhalmazba belevinni az összes méretű pályát
 * Jupiter notebook-ba belerakni ezeket ".iynb"
+* math.lib-bel grafikonokat rajzolni

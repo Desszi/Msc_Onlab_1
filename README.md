@@ -45,4 +45,9 @@ A program kap valós paramétereket is tanítóhalmaznak, aminek az első eleme 
 * A pályákat forgassuk el minden irányba, ezzel külön eseteket generálva. (Dubla for ciklus)
 * Legyen külön tanító, teszt és validációs halmazunk.
 * A következő kurzus segít a hiperparaméter választásban (CNN-ig eljutva): https://learn.udacity.com/courses/ud187/welcome-flow
-
+## Hetedik rész
+* Osztályzó berakása, könnyű, közepes nehéz osztály, és hogy jó osztályba rakja-e be? --> utolsó réteg lecserélése klasszifikációra
+* Csak 8x8-as pálya, és akkor egészítsük ki 1-esekkel ha kevesebb
+* Tanítóhalmazba belevinni az összes méretű pályát
+* Jupiter notebook-ba belerakni ezeket ".iynb"
+* math.lib-bel grafikonokat rajzolni

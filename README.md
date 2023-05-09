@@ -51,3 +51,6 @@ A program kap valós paramétereket is tanítóhalmaznak, aminek az első eleme 
 * Tanítóhalmazba belevinni az összes méretű pályát
 * Jupiter notebook-ba belerakni ezeket ".iynb"
 * math.lib-bel grafikonokat rajzolni
+## Nyolcadik rész
+* Random a halmazból 10-et kiveszünk megnézzük arra mit becsül nehézségi szintnek ezt összehasonlítjuk a mostani becslésekkel
+* Még több "nehéz" pályát bevenni a halmazba

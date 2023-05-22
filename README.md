@@ -1,6 +1,8 @@
 # Msc_Onlab_1
 A tanulási képesség mobil környezetben való vizsgálatának elemzése és modellezése.
 Név: Porkoláb Mercédesz
+A kód magyarázattal Google Codab-ban:
+https://colab.research.google.com/drive/1sjea18KFypPhtXN8zGHHk3noS2wKFPOp#scrollTo=kIA3GmU76k9W
 # Hozzáférési adatot a teszteléshez (test userek, backend URL)
 Mondrian fiók: felhasználónév: 09dporkolabm@gmail.com
                jelszó: uVAr6kaLhG

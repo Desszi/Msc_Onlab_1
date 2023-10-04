@@ -50,25 +50,25 @@ y_val_class = np.zeros((len(y_val), 3))
 y_test_class = np.zeros((len(y_test), 3))
 
 for i in range(len(y_train)):
-    if y_train[i] < 100:
+    if y_train[i] < 150:
         y_train_class[i][0] = 1
-    elif y_train[i] > 200:
+    elif y_train[i] > 250:
         y_train_class[i][2] = 1
     else:
         y_train_class[i][1] = 1
 
 for i in range(len(y_val)):
-    if y_val[i] < 100:
+    if y_val[i] < 150:
         y_val_class[i][0] = 1
-    elif y_val[i] > 200:
+    elif y_val[i] > 250:
         y_val_class[i][2] = 1
     else:
         y_val_class[i][1] = 1
 
 for i in range(len(y_test)):
-    if y_test[i] < 100:
+    if y_test[i] < 150:
         y_test_class[i][0] = 1
-    elif y_test[i] > 200:
+    elif y_test[i] > 250:
         y_test_class[i][2] = 1
     else:
         y_test_class[i][1] = 1
@@ -115,9 +115,9 @@ else:
     print('A pálya nehézsége: nehéz')
 
 # Osztályok létrehozása
-class_1 = y_train[y_train < 100]
-class_2 = y_train[(y_train >= 100) & (y_train <= 200)]
-class_3 = y_train[y_train > 200]
+class_1 = y_train[y_train < 150]
+class_2 = y_train[(y_train >= 150) & (y_train <= 250)]
+class_3 = y_train[y_train > 250]
 
 # Diagram létrehozása
 plt.scatter(range(len(class_1)), class_1, c ='blue', alpha=0.5, label='Könnyű')

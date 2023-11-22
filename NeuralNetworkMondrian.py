@@ -50,25 +50,25 @@ y_val_class = np.zeros((len(y_val), 3))
 y_test_class = np.zeros((len(y_test), 3))
 
 for i in range(len(y_train)):
-    if y_train[i] < 150:
+    if y_train[i] < 50:
         y_train_class[i][0] = 1
-    elif y_train[i] > 250:
+    elif y_train[i] > 100:
         y_train_class[i][2] = 1
     else:
         y_train_class[i][1] = 1
 
 for i in range(len(y_val)):
-    if y_val[i] < 150:
+    if y_val[i] < 50:
         y_val_class[i][0] = 1
-    elif y_val[i] > 250:
+    elif y_val[i] > 100:
         y_val_class[i][2] = 1
     else:
         y_val_class[i][1] = 1
 
 for i in range(len(y_test)):
-    if y_test[i] < 150:
+    if y_test[i] < 50:
         y_test_class[i][0] = 1
-    elif y_test[i] > 250:
+    elif y_test[i] > 100:
         y_test_class[i][2] = 1
     else:
         y_test_class[i][1] = 1
@@ -93,39 +93,45 @@ loss = model.evaluate(x_test, y_test_class)
 #new_board = np.random.randint(2, size=(int(math.sqrt(matrix.size)), int(math.sqrt(matrix.size))))# Új pálya generálása
 
 new_board = [
-[0,1,0,0,0,0,1,1],
+[0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0],
 [0,0,0,0,0,0,0,1],
-[0,0,0,1,0,0,1,1],
-[0,0,1,0,1,1,0,1],
-[0,1,0,1,0,0,0,1],
-[0,0,0,0,1,0,0,1],
-[1,1,1,1,1,1,1,1],
-[1,1,1,1,1,1,1,1]]
+[0,0,0,0,0,0,0,1],
+[0,0,0,0,0,0,1,1],
+[0,0,0,0,1,1,0,0],
+[0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0]]
+
 
 "nehéz"
 0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0
 0,0,0,0,0,0,0,1
-1,0,0,1,0,0,1,0
+0,1,1,0,0,0,0,1
 0,0,0,0,0,0,0,1
-0,0,0,0,0,1,0,0
-0,0,0,0,0,1,0,0
-0,0,1,0,0,0,0,0
+0,0,0,0,0,0,0,0
+1,0,0,0,0,0,0,0
 
 "közepes"
-0,1,0,0,0,0,1
-0,0,0,0,0,0,0
-0,0,0,1,0,0,1
-0,0,1,0,1,1,0
-0,1,0,1,0,0,0
-0,0,0,0,1,0,0
+0,0,0,0,0,0,0,1
+0,0,0,0,0,0,0,1
+0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0
+0,0,1,0,0,0,0,0
+0,0,1,0,0,0,0,0
+0,0,1,0,0,0,0,0
+1,0,0,0,0,0,0,0
 
 "könnyű"
-0,0,0,0,0,1
-0,0,0,0,0,0
-1,1,1,1,0,0
-0,0,0,1,0,0
-0,0,0,0,0,0
-0,0,0,0,0,0
+0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,1
+0,0,0,0,0,0,0,1
+0,0,0,0,0,0,1,1
+0,0,0,0,1,1,0,0
+0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0
 
 new_board = np.array(new_board)
 print("A jelenlegi pálya:", new_board)
@@ -133,16 +139,16 @@ new_board = new_board.ravel() #Pálya kilapítása
 difficulty = model.predict(np.array([new_board]))[0] #létrehozzuk a pályát és visszaadjuk a nehézségét
 
 if difficulty[0] > difficulty[1] and difficulty[0] > difficulty[2]:
-    print('A pálya nehézsége: könnyű')
+    print('A pálya nehézsége: könnyű, lépésszám:', y_train[i])
 elif difficulty[1] > difficulty[0] and difficulty[1] > difficulty[2]:
-    print('A pálya nehézsége: közepes')
+    print('A pálya nehézsége: közepes, lépésszám:', y_train[i])
 else:
-    print('A pálya nehézsége: nehéz')
+    print('A pálya nehézsége: nehéz, lépésszám:', y_train[i])
 
 # Osztályok létrehozása
-class_1 = y_train[y_train < 150]
-class_2 = y_train[(y_train >= 150) & (y_train <= 250)]
-class_3 = y_train[y_train > 250]
+class_1 = y_train[y_train < 50]
+class_2 = y_train[(y_train >= 50) & (y_train <= 100)]
+class_3 = y_train[y_train > 100]
 
 # Diagram létrehozása
 plt.scatter(range(len(class_1)), class_1, c ='blue', alpha=0.5, label='Könnyű')

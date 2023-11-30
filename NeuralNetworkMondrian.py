@@ -1,5 +1,4 @@
 import csv
-
 import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense
@@ -8,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from keras.callbacks import EarlyStopping
 import matplotlib.pyplot as plt
 
-#Az adatok be (x) és kimenetének (y) implementálása
+# Adatok be (x) és kimenetének (y) implementálása
 x_data = []
 y_data = []
 
@@ -29,20 +28,19 @@ with open('data.csv', 'r') as file:
             x_data.append(rotated_matrix)
             y_data.append(number)
 
+# A tanítóhalmaz és a teszthalmaz elkészítése
 x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.2) #tanuló és teszthalmaz lebontás 80-20%
 x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=0.2) #tanuló és validációshalmaz lebontás 80-20%
 
-# A neurális háló létrehozása
-# Minden réteg csak a szomszédjaival van összekötve
+# A neurális háló becsült lépésszámra
 model = Sequential()
-model.add(Dense(64, input_dim= matrix.size, activation='relu'))
+model.add(Dense(64, input_dim=matrix.size, activation='relu'))
 model.add(Dense(32, activation='relu'))
 model.add(Dense(16, activation='relu'))
 model.add(Dense(8, activation='relu'))
-model.add(Dense(3, activation='softmax'))
+model.add(Dense(1, activation='linear'))  # Regression layer for step count
 
-# A neurális háló veszteségfüggvénye
-model.compile(loss='categorical_crossentropy', optimizer=Adam(learning_rate=0.001), metrics=['accuracy'])
+model.compile(loss='mean_squared_error', optimizer=Adam(learning_rate=0.001), metrics=['mse'])
 
 # Osztályok létrehozása
 y_train_class = np.zeros((len(y_train), 3))
@@ -85,65 +83,56 @@ x_train = x_train.reshape((x_train.shape[0], matrix.size))
 x_val = x_val.reshape((x_val.shape[0], matrix.size))
 x_test = x_test.reshape((x_test.shape[0], matrix.size))
 
-early_stopping = EarlyStopping(monitor='val_loss', patience=10)
-model.fit(x_train, y_train_class, validation_data=(x_val, y_val_class), epochs=500, callbacks=[early_stopping])
+early_stopping = EarlyStopping(monitor='loss', patience=10)
+model.fit(x_train, y_train, validation_data=(x_val, y_val_class), epochs=500, callbacks=[early_stopping])
 loss = model.evaluate(x_test, y_test_class)
 
-# Egy új pálya nehézségének meghatározása
-#new_board = np.random.randint(2, size=(int(math.sqrt(matrix.size)), int(math.sqrt(matrix.size))))# Új pálya generálása
+# Becsült lépésszámokat hozzáadni az eredeti adatokhoz
+with open('estimated_data.csv', 'r') as file:
+    reader = csv.reader(file)
+    estimated_data = list(reader)
 
-new_board = [
-[0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,1],
-[0,0,0,0,0,0,0,1],
-[0,0,0,0,0,0,1,1],
-[0,0,0,0,1,1,0,0],
-[0,0,0,0,0,0,0,0],
-[0,0,0,0,0,0,0,0]]
+new_original_data = []
+differences = []
 
+for row in estimated_data:
+    array_string = row[0]
+    matrix = np.array([[int(cell) for cell in line.split(',')] for line in array_string.split('\n')])
+    rows, cols = matrix.shape
+    if rows < 8 or cols < 8:
+        matrix = np.pad(matrix, ((0, max(0, 8 - rows)), (0, max(0, 8 - cols))), constant_values=1)
+    flattened_matrix = matrix.ravel()
+    estimated_steps = np.round(model.predict(np.array([flattened_matrix]))[0][0])
 
-"nehéz"
-0,0,0,0,0,0,0,0
-0,0,0,0,0,0,0,0
-0,0,0,0,0,0,0,0
-0,0,0,0,0,0,0,1
-0,1,1,0,0,0,0,1
-0,0,0,0,0,0,0,1
-0,0,0,0,0,0,0,0
-1,0,0,0,0,0,0,0
+    original_steps = int(row[1])
 
-"közepes"
-0,0,0,0,0,0,0,1
-0,0,0,0,0,0,0,1
-0,0,0,0,0,0,0,0
-0,0,0,0,0,0,0,0
-0,0,1,0,0,0,0,0
-0,0,1,0,0,0,0,0
-0,0,1,0,0,0,0,0
-1,0,0,0,0,0,0,0
+    difference = abs(original_steps - estimated_steps)
+    differences.append(difference)
 
-"könnyű"
-0,0,0,0,0,0,0,0
-0,0,0,0,0,0,0,0
-0,0,0,0,0,0,0,1
-0,0,0,0,0,0,0,1
-0,0,0,0,0,0,1,1
-0,0,0,0,1,1,0,0
-0,0,0,0,0,0,0,0
-0,0,0,0,0,0,0,0
+    if estimated_steps > 50 and 100 > estimated_steps:
+        difficulty = 'medium'
+    elif estimated_steps < 50:
+        difficulty = 'easy'
+    else:
+        difficulty = 'hard'
 
-new_board = np.array(new_board)
-print("A jelenlegi pálya:", new_board)
-new_board = new_board.ravel() #Pálya kilapítása
-difficulty = model.predict(np.array([new_board]))[0] #létrehozzuk a pályát és visszaadjuk a nehézségét
+    new_row = f"{array_string},{original_steps},{estimated_steps},{difficulty}"
+    new_original_data.append([new_row])
 
-if difficulty[0] > difficulty[1] and difficulty[0] > difficulty[2]:
-    print('A pálya nehézsége: könnyű, lépésszám:', y_train[i])
-elif difficulty[1] > difficulty[0] and difficulty[1] > difficulty[2]:
-    print('A pálya nehézsége: közepes, lépésszám:', y_train[i])
-else:
-    print('A pálya nehézsége: nehéz, lépésszám:', y_train[i])
+# Becsült lépésszámokat írni az eredeti adatfájlba
+with open('data_with_steps.csv', 'w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerows(new_original_data)
+
+# Meta-eredmények kiszámolása
+mean_difference = np.mean(differences)
+std_deviation = np.std(differences)
+
+# Meta-eredményeket írni a CSV-fájlba
+with open('meta_results.csv', 'w', newline='') as meta_file:
+    meta_writer = csv.writer(meta_file)
+    meta_writer.writerow(["Tanitohalmaz merete", "Teszthalmaz merete", "Atlagos elteres", "Szoras"])
+    meta_writer.writerow([len(x_train), len(estimated_data), mean_difference, std_deviation])
 
 # Osztályok létrehozása
 class_1 = y_train[y_train < 50]

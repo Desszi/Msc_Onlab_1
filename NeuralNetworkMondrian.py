@@ -6,6 +6,7 @@ from keras.optimizers import Adam
 from sklearn.model_selection import train_test_split
 from keras.callbacks import EarlyStopping
 import matplotlib.pyplot as plt
+import tensorflow as tf
 
 # Adatok be (x) és kimenetének (y) implementálása
 x_data = []
@@ -29,63 +30,37 @@ with open('data.csv', 'r') as file:
             y_data.append(number)
 
 # A tanítóhalmaz és a teszthalmaz elkészítése
-x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.2) #tanuló és teszthalmaz lebontás 80-20%
-x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=0.2) #tanuló és validációshalmaz lebontás 80-20%
+x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.2, random_state=42)
+x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=0.2, random_state=42)
 
-# A neurális háló becsült lépésszámra
-model = Sequential()
-model.add(Dense(64, input_dim=matrix.size, activation='relu'))
-model.add(Dense(32, activation='relu'))
-model.add(Dense(16, activation='relu'))
-model.add(Dense(8, activation='relu'))
-model.add(Dense(1, activation='linear'))  # Regression layer for step count
+inputs = tf.keras.Input(shape=(8, 8, 1))
+conv1a = tf.keras.layers.Conv2D(32, (2, 2), activation='relu', padding='same')(inputs)
+conv1b = tf.keras.layers.Conv2D(32, (4, 4), activation='relu', padding='same')(inputs)
+pool1a = tf.keras.layers.MaxPooling2D((2, 2))(conv1a)
+pool1b = tf.keras.layers.MaxPooling2D((2, 2))(conv1b)
+conv2a = tf.keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same')(pool1a)
+conv2b = tf.keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same')(pool1b)
+merged = tf.keras.layers.concatenate([conv2a, conv2b], axis=-1)
+flatten = tf.keras.layers.Flatten()(merged)
+dense1 = tf.keras.layers.Dense(64, activation='relu')(flatten)
+outputs = tf.keras.layers.Dense(1, activation='linear')(dense1)  # Lineáris kimenet a regresszióhoz
+model = tf.keras.models.Model(inputs=inputs, outputs=outputs)
 
-model.compile(loss='mean_squared_error', optimizer=Adam(learning_rate=0.001), metrics=['mse'])
+model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mean_squared_error'])
+model.summary()
 
-# Osztályok létrehozása
-y_train_class = np.zeros((len(y_train), 3))
-y_val_class = np.zeros((len(y_val), 3))
-y_test_class = np.zeros((len(y_test), 3))
-
-for i in range(len(y_train)):
-    if y_train[i] < 50:
-        y_train_class[i][0] = 1
-    elif y_train[i] > 100:
-        y_train_class[i][2] = 1
-    else:
-        y_train_class[i][1] = 1
-
-for i in range(len(y_val)):
-    if y_val[i] < 50:
-        y_val_class[i][0] = 1
-    elif y_val[i] > 100:
-        y_val_class[i][2] = 1
-    else:
-        y_val_class[i][1] = 1
-
-for i in range(len(y_test)):
-    if y_test[i] < 50:
-        y_test_class[i][0] = 1
-    elif y_test[i] > 100:
-        y_test_class[i][2] = 1
-    else:
-        y_test_class[i][1] = 1
-
-# A neurális háló tanítása
-x_train = np.array(x_train)
 y_train = np.array(y_train)
-x_val = np.array(x_val)
 y_val = np.array(y_val)
-x_test = np.array(x_test)
+x_train = np.array(x_train).reshape(-1, 8, 8, 1)
+x_val = np.array(x_val).reshape(-1, 8, 8, 1)
+
+early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10)
+model.fit(x_train, y_train, validation_data=(x_val, y_val), epochs=1000, callbacks=[early_stopping])
+
+x_test = np.array(x_test).reshape(-1, 8, 8, 1)
 y_test = np.array(y_test)
-
-x_train = x_train.reshape((x_train.shape[0], matrix.size))
-x_val = x_val.reshape((x_val.shape[0], matrix.size))
-x_test = x_test.reshape((x_test.shape[0], matrix.size))
-
-early_stopping = EarlyStopping(monitor='loss', patience=10)
-model.fit(x_train, y_train, validation_data=(x_val, y_val_class), epochs=500, callbacks=[early_stopping])
-loss = model.evaluate(x_test, y_test_class)
+loss = model.evaluate(x_test, y_test)[0]
+print(f"Loss: {loss}")
 
 # Becsült lépésszámokat hozzáadni az eredeti adatokhoz
 with open('estimated_data.csv', 'r') as file:
@@ -101,17 +76,16 @@ for row in estimated_data:
     rows, cols = matrix.shape
     if rows < 8 or cols < 8:
         matrix = np.pad(matrix, ((0, max(0, 8 - rows)), (0, max(0, 8 - cols))), constant_values=1)
-    flattened_matrix = matrix.ravel()
-    estimated_steps = np.round(model.predict(np.array([flattened_matrix]))[0][0])
-
+    reshaped_matrix = matrix.reshape(1, 8, 8, 1)
+    estimated_steps = np.round(model.predict(reshaped_matrix)[0][0])
     original_steps = int(row[1])
 
     difference = abs(original_steps - estimated_steps)
     differences.append(difference)
 
-    if estimated_steps > 50 and 100 > estimated_steps:
+    if estimated_steps > 100 and 200 > estimated_steps:
         difficulty = 'medium'
-    elif estimated_steps < 50:
+    elif estimated_steps < 100:
         difficulty = 'easy'
     else:
         difficulty = 'hard'
@@ -131,23 +105,27 @@ std_deviation = np.std(differences)
 # Meta-eredményeket írni a CSV-fájlba
 with open('meta_results.csv', 'w', newline='') as meta_file:
     meta_writer = csv.writer(meta_file)
-    meta_writer.writerow(["Tanitohalmaz merete", "Teszthalmaz merete", "Atlagos elteres", "Szoras"])
-    meta_writer.writerow([len(x_train), len(estimated_data), mean_difference, std_deviation])
+    meta_writer.writerow(["Tanitohalmaz merete", "Validacios merete", "Teszthalmaz merete", "Atlagos elteres", "Szoras"])
+    meta_writer.writerow([len(x_train), len(x_val), len(estimated_data), round(mean_difference), round(std_deviation)])
 
-# Osztályok létrehozása
-class_1 = y_train[y_train < 50]
-class_2 = y_train[(y_train >= 50) & (y_train <= 100)]
-class_3 = y_train[y_train > 100]
+# A becsült értékek előállítása
+estimated_y_train = model.predict(x_train.reshape(-1, 8, 8, 1)).flatten()
 
-# Diagram létrehozása
-plt.scatter(range(len(class_1)), class_1, c ='blue', alpha=0.5, label='Könnyű')
-plt.scatter(range(len(class_2)), class_2, c ='orange', alpha=0.5, label='Közepes')
-plt.scatter(range(len(class_3)), class_3, c = 'red', alpha=0.5, label='Nehéz')
+# Osztályok létrehozása a becsült értékek alapján
+estimated_class_1_indices = (estimated_y_train < 100)
+estimated_class_2_indices = (estimated_y_train >= 100) & (estimated_y_train <= 200)
+estimated_class_3_indices = (estimated_y_train > 200)
+
+# Diagram létrehozása a becsült értékek alapján színezve, de az eredeti értékeket használva az x-tengelyen
+plt.scatter(np.flatnonzero(estimated_class_1_indices), y_train[estimated_class_1_indices], c ='blue', alpha=0.5, label='Könnyű')
+plt.scatter(np.flatnonzero(estimated_class_2_indices), y_train[estimated_class_2_indices], c ='orange', alpha=0.5, label='Közepes')
+plt.scatter(np.flatnonzero(estimated_class_3_indices), y_train[estimated_class_3_indices], c = 'red', alpha=0.5, label='Nehéz')
 
 # Cím és tengelyfeliratok hozzáadása
 plt.title('A pályák lépéseinek száma')
-plt.xlabel('Érték')
+plt.xlabel('Valódi lépésszám indexe')
 plt.ylabel('Lépésszám')
+
 # Jelmagyarázat hozzáadása
 plt.legend(loc='upper right')
 

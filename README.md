@@ -56,3 +56,9 @@ A program kap valós paramétereket is tanítóhalmaznak, aminek az első eleme 
 ## Nyolcadik rész
 * Random a halmazból 10-et kiveszünk megnézzük arra mit becsül nehézségi szintnek ezt összehasonlítjuk a mostani becslésekkel
 * Még több "nehéz" pályát bevenni a halmazba
+
+**Diplomaterv**
+* Kristóf a Rasch modellel lövi be a feladatok nehézségét. Azt is, amit korábban a Mérő Lacihoz csináltál a modellel. Ezt a módszert le kell lesni tőle, mert próbáljunk olyan modellt is csinálni, ami azt közelíti
+* A Mondrian mellett a hexablocks és a háromszöges esetére is kéne hasonló modelleket gyártani. A cogni-teachen is fenn vannak pályák (de már mi is tudjuk, írtunk a nyáron mobil appot, amiben ezek is benne vannak 🙂)
+* TDK - ki kell találnunk a tartalmát, amivel regisztráljuk
+* kísérletezés a VisualML-lel, mennyire tud ő nehézséget becsülni (de mivel az általános modell, ezért drágábban)

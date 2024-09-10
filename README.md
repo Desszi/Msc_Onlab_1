@@ -58,7 +58,9 @@ A program kap valós paramétereket is tanítóhalmaznak, aminek az első eleme 
 * Még több "nehéz" pályát bevenni a halmazba
 
 # Diplomaterv
-* Kristóf a Rasch modellel lövi be a feladatok nehézségét. Azt is, amit korábban a Mérő Lacihoz csináltál a modellel. Ezt a módszert le kell lesni tőle, mert próbáljunk olyan modellt is csinálni, ami azt közelíti
-* A Mondrian mellett a hexablocks és a háromszöges esetére is kéne hasonló modelleket gyártani. A cogni-teachen is fenn vannak pályák (de már mi is tudjuk, írtunk a nyáron mobil appot, amiben ezek is benne vannak 🙂)
-* TDK - ki kell találnunk a tartalmát, amivel regisztráljuk
-* kísérletezés a VisualML-lel, mennyire tud ő nehézséget becsülni (de mivel az általános modell, ezért drágábban)
+* Kutatók éjszakája 2024.09.27 - NP teljes probléma - konvolúciós réteg többet lát mint emberi szem, explainable AI , GO játék - AI híres 37. lépes itt is hasonló dolgok lehetnek , pár slide 8-10 perc
+* Nemzetkozi AI transformation - okt 25 --> plakátkészítés A0-s / szeptember vége beadással
+* TDK - ki kell találnunk a tartalmát, amivel regisztráljuk, dipi terv címe lehet a cím, 2024. okt 1-től lehet regelni.
+* Kristóf a Rasch modellel lövi be a feladatok nehézségét. Azt is, amit korábban a Mérő Lacihoz csináltál a modellel. Ezt a módszert le kell lesni tőle, mert próbáljunk olyan modellt is csinálni, ami azt közelíti, IRT kétparaméteres próba - Mondrian blocknál - pszichometrikus - Kristóf
+*  HALADNI EZEKKEL: A Mondrian mellett a hexablocks és a háromszöges esetére is kéne hasonló modelleket gyártani. A cogni-teachen is fenn vannak pályák (de már mi is tudjuk, írtunk a nyáron mobil appot, amiben ezek is benne vannak 🙂), A Mondrian mellett a hexablocks és a háromszöges esetére is kéne hasonló modelleket gyártani. A cogni-teachen is fenn vannak pályák (de már mi is tudjuk, írtunk a nyáron mobil appot, amiben ezek is benne vannak 🙂), 2D -s modellé alakítás --> hármszög -- > 2D - A meg B oldal
+* kísérletezés a VisualML-lel, mennyire tud ő nehézséget becsülni (de mivel az általános modell, ezért drágábban) --> mostani modell idealakítása - Gyarmati Zsófitól

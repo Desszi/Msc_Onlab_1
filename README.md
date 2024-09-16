@@ -4,7 +4,7 @@ Név: Porkoláb Mercédesz
 A kód magyarázattal Google Codab-ban:
 https://colab.research.google.com/drive/1sjea18KFypPhtXN8zGHHk3noS2wKFPOp#scrollTo=kIA3GmU76k9W
 # Hozzáférési adatot a teszteléshez (test userek, backend URL)
-Mondrian fiók: felhasználónév: 09dporkolabm@gmail.com
+Mondrian, cogniT fiók: felhasználónév: 09dporkolabm@gmail.com
                jelszó: uVAr6kaLhG
 # Feladat leírás
 A tanulási folyamatok során látens képességek fejlesztése is történik. Korszerű szemléletmód szerint a kognitív képességek tesztelése és fejlesztése helyett vagy mellett játékok és azok eredményének megfigyelése jelenthet szórakoztatóbb, hosszabb távon is érdekes fejlesztési módot.

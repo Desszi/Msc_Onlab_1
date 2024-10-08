@@ -64,3 +64,6 @@ A program kap valós paramétereket is tanítóhalmaznak, aminek az első eleme 
 * Kristóf a Rasch modellel lövi be a feladatok nehézségét. Azt is, amit korábban a Mérő Lacihoz csináltál a modellel. Ezt a módszert le kell lesni tőle, mert próbáljunk olyan modellt is csinálni, ami azt közelíti, IRT kétparaméteres próba - Mondrian blocknál - pszichometrikus - Kristóf
 *  HALADNI EZEKKEL: A Mondrian mellett a hexablocks és a háromszöges esetére is kéne hasonló modelleket gyártani. A cogni-teachen is fenn vannak pályák (de már mi is tudjuk, írtunk a nyáron mobil appot, amiben ezek is benne vannak 🙂), A Mondrian mellett a hexablocks és a háromszöges esetére is kéne hasonló modelleket gyártani. A cogni-teachen is fenn vannak pályák (de már mi is tudjuk, írtunk a nyáron mobil appot, amiben ezek is benne vannak 🙂), 2D -s modellé alakítás --> hármszög -- > 2D - A meg B oldal
 * kísérletezés a VisualML-lel, mennyire tud ő nehézséget becsülni (de mivel az általános modell, ezért drágábban) --> mostani modell idealakítása - Gyarmati Zsófitól
+
+# TDK-ra :
+https://en.wikipedia.org/wiki/Transformer_(deep_learning_architecture)

@@ -36,14 +36,15 @@ x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=0.
 inputs = tf.keras.Input(shape=(8, 8, 1))
 conv1a = tf.keras.layers.Conv2D(32, (2, 2), activation='relu', padding='same')(inputs)
 conv1b = tf.keras.layers.Conv2D(32, (4, 4), activation='relu', padding='same')(inputs)
-pool1a = tf.keras.layers.MaxPooling2D((2, 2))(conv1a)
-pool1b = tf.keras.layers.MaxPooling2D((2, 2))(conv1b)
-conv2a = tf.keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same')(pool1a)
-conv2b = tf.keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same')(pool1b)
+# pool1a = tf.keras.layers.MaxPooling2D((2, 2))(conv1a)
+# pool1b = tf.keras.layers.MaxPooling2D((2, 2))(conv1b)
+conv2a = tf.keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same')(conv1a)  # pool1a
+conv2b = tf.keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same')(conv1b)  # pool1b
 merged = tf.keras.layers.concatenate([conv2a, conv2b], axis=-1)
 flatten = tf.keras.layers.Flatten()(merged)
 dense1 = tf.keras.layers.Dense(64, activation='relu')(flatten)
 outputs = tf.keras.layers.Dense(1, activation='linear')(dense1)  # Lineáris kimenet a regresszióhoz
+
 model = tf.keras.models.Model(inputs=inputs, outputs=outputs)
 
 model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mean_squared_error'])
@@ -55,7 +56,7 @@ x_train = np.array(x_train).reshape(-1, 8, 8, 1)
 x_val = np.array(x_val).reshape(-1, 8, 8, 1)
 
 early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=10)
-model.fit(x_train, y_train, validation_data=(x_val, y_val), epochs=1000, callbacks=[early_stopping])
+model.fit(x_train, y_train, validation_data=(x_val, y_val), epochs=400, callbacks=[early_stopping])
 
 x_test = np.array(x_test).reshape(-1, 8, 8, 1)
 y_test = np.array(y_test)
@@ -83,9 +84,9 @@ for row in estimated_data:
     difference = abs(original_steps - estimated_steps)
     differences.append(difference)
 
-    if estimated_steps > 100 and 200 > estimated_steps:
+    if estimated_steps > 10000 and 40000 > estimated_steps:
         difficulty = 'medium'
-    elif estimated_steps < 100:
+    elif estimated_steps < 10000:
         difficulty = 'easy'
     else:
         difficulty = 'hard'
@@ -112,19 +113,19 @@ with open('meta_results.csv', 'w', newline='') as meta_file:
 estimated_y_train = model.predict(x_train.reshape(-1, 8, 8, 1)).flatten()
 
 # Osztályok létrehozása a becsült értékek alapján
-estimated_class_1_indices = (estimated_y_train < 100)
-estimated_class_2_indices = (estimated_y_train >= 100) & (estimated_y_train <= 200)
-estimated_class_3_indices = (estimated_y_train > 200)
+estimated_class_1_indices = (estimated_y_train < 10000)
+estimated_class_2_indices = (estimated_y_train >= 10000) & (estimated_y_train <= 40000)
+estimated_class_3_indices = (estimated_y_train > 40000)
 
 # Diagram létrehozása a becsült értékek alapján színezve, de az eredeti értékeket használva az x-tengelyen
-plt.scatter(np.flatnonzero(estimated_class_1_indices), y_train[estimated_class_1_indices], c ='blue', alpha=0.5, label='Könnyű')
-plt.scatter(np.flatnonzero(estimated_class_2_indices), y_train[estimated_class_2_indices], c ='orange', alpha=0.5, label='Közepes')
-plt.scatter(np.flatnonzero(estimated_class_3_indices), y_train[estimated_class_3_indices], c = 'red', alpha=0.5, label='Nehéz')
+plt.scatter(np.flatnonzero(estimated_class_1_indices), y_train[estimated_class_1_indices], c ='blue', alpha=0.5, label='Easy')
+plt.scatter(np.flatnonzero(estimated_class_2_indices), y_train[estimated_class_2_indices], c ='orange', alpha=0.5, label='Medium')
+plt.scatter(np.flatnonzero(estimated_class_3_indices), y_train[estimated_class_3_indices], c = 'red', alpha=0.5, label='Hard')
 
 # Cím és tengelyfeliratok hozzáadása
-plt.title('A pályák lépéseinek száma')
-plt.xlabel('Valódi lépésszám indexe')
-plt.ylabel('Lépésszám')
+plt.title('Number of steps for board (8x8)')
+plt.xlabel('Board index')
+plt.ylabel('Number of steps')
 
 # Jelmagyarázat hozzáadása
 plt.legend(loc='upper right')
